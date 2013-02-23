@@ -1,0 +1,45 @@
+﻿@model DataUploadClient.Controllers.FileUploadModel
+@{
+    ViewBag.Title = ViewBag.Message;
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+    <div class="float-right">
+        <input type="submit" class="uploadButton" />
+     </div>
+<div style="clear:both;"></div>
+<div>
+
+    <table>
+        <tr>
+            <th>
+            </th>
+        </tr>
+            <tr>
+                <td width="100px">@Html.Label("Cycler:")</td>
+                <td width="400px">@Html.DropDownListFor(model => model.selectedCycler, Model.cyclerList)</td>
+            </tr>
+             <tr>
+                 <td width="100px">@Html.Label("Test Type:")</td>
+                <td>
+                   @foreach (var item in Model.testTypeList)
+                   {
+                       @Html.DisplayFor(i => item.Text)
+                       @Html.RadioButton("selectedTestType", item.Value, item.Value == "CONDITIONING" ? true : false)
+                   }
+
+                </td>
+            </tr>
+
+    </table>
+     
+    <table>
+            <tr>
+                <td><input name="file" id="uploadFile1" type="file" size="64"  /></td>
+            </tr>
+    </table>
+    </form>
+</div>

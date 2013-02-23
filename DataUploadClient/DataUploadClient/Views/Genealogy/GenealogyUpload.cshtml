@@ -1,0 +1,32 @@
+﻿@model DataUploadClient.Controllers.GenealogyUploadModel
+@{
+    ViewBag.Title = "GenealogyUpload";
+}
+<form method="post" enctype="multipart/form-data">
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+    <div class="float-right">
+        <input type="submit" class="uploadButton" />
+     </div>
+<div style="clear:both;"></div>
+<div>
+
+    <table>
+        <tr>
+            <th>
+            </th>
+        </tr>
+            <tr>
+                <td width="100px">@Html.Label("Genealogy Data Type:")</td>
+                <td width="400px">@Html.DropDownListFor(model => model.selectedType, Model.genealogyTypeList)</td>
+            </tr>
+    </table>
+     
+    <table>
+            <tr>
+                <td><input name="file" id="uploadFile1" type="file" size="64"  /></td>
+            </tr>
+    </table>
+    </form>
+</div>

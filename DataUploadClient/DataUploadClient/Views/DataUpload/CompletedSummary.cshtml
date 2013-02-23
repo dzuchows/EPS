@@ -1,0 +1,51 @@
+﻿@model DataUploadClient.Controllers.SummaryModel
+@{
+    ViewBag.Title = "Summary";
+}
+
+<h2>Summary</h2>
+
+<div>
+<table>
+    <tr>
+        <td>@Html.Label("testNameLabel","Test Name:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.test.TestName, new { @class="summaryValue"})</td>
+    </tr>
+    <tr>
+        <td>@Html.Label("testTypeLabel", "Test Type:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testTypeValueLabel",Model.testType, new { @class="summaryValue"})</td>
+    </tr>
+    <tr>
+        <td>@Html.Label("fileNameLabel", "File Name:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("fileNameValueLabel", Model.fileName, new { @class="summaryValue"})</td>
+    </tr>
+    <tr>
+        <td>@Html.Label("downloadLabel", "Download Excel File:", new { @class="summaryLabel"})</td>
+        <td> @Html.ActionLink("Download Excel File", "CompletedDownload", new { fileName = Model.fileName }, new { @class = "summaryValue" })</td>
+    </tr>
+
+</table>
+
+</div>
+
+<div  class="float-left">
+    @if (Model.testType == "CONDITIONING") {
+        Html.RenderAction("buildConditioningChargeChart", Model.test); 
+    } else {
+        Html.RenderAction("buildFormationChargeChart", Model.test);         
+    }
+</div>
+
+<div class="float-right">
+@if (Model.testType == "CONDITIONING")
+{
+    Html.RenderAction("buildConditioningImpedanceChart", Model.test);     
+}
+</div>
+
+<div style="clear:both;"></div>
+
+<div class="float-left" style="margin-right: 25%;">
+            @Html.ActionLink("Home", "Index", "DataUpload",new { @class = "uploadButton" })
+
+</div>

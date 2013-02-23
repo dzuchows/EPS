@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DataUploader.Models.UploadHistory>
+
+@{
+    ViewBag.Title = "Upload History / Status";
+}
+
+<div>
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+    <div class="float-right">
+        @Html.ActionLink("Upload New File", "FileUpload", "DataUpload", new { @class = "uploadButton" })
+    </div>
+</div>
+<div style="clear:both;"></div>
+<div>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadTimestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UploadTimestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DataUploadApi.UploadHistory>
+@{
+    ViewBag.Title = ViewBag.Message;
+}
+
+<style>
+
+    .testNameHeader
+    {
+        width: 400px;
+        text-align: left;
+    }
+    .uploadTimestampHeader
+    {
+        width: 200px;
+        text-align: left;
+
+    }
+    .statusHeader
+    {
+        width: 200px;
+        text-align: left;
+
+    }
+    .summaryLink
+    {
+        width: 100px;
+        text-align: left;
+
+    }
+
+</style>
+
+<div>
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<div>
+    <table>
+        <tr>
+            <th class="testNameHeader">
+                @Html.DisplayNameFor(model => model.TestName)
+            </th>
+            <th class="uploadTimestampHeader">
+                @Html.DisplayNameFor(model => model.UploadTimeStamp)
+            </th>
+            <th class="statusHeader">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th class="summaryLink"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UploadTimeStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>  @if (item.Status == "COMPLETED")
+                     {
+                      @Html.ActionLink("Summary", "CompletedSummary", "DataView", new { fileName = item.FileName }, null)   
+                     }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+

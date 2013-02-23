@@ -1,0 +1,103 @@
+﻿@model DataUploadClient.Controllers.GenealogySummaryModel
+@{
+    ViewBag.Title = "Genealogy";
+}
+
+<h2>Summary for @Model.bielectrodeId</h2>
+
+<div>
+@if (Model.weight != null) {
+<table>
+    <tr>
+        <td>@Html.Label("testNameLabel","Bielectrode Id:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.bielectrodeId, new { @class="summaryValue"})</td>
+    </tr>  
+
+    <tr>
+        <td>@Html.Label("testNameLabel","Positive Bipatties Weight[g]:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.PositiveBipattiesWeight.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+     <tr>
+        <td>@Html.Label("testNameLabel","Negative Bipatties Weight[g]:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.NegativeBipattiesWeight.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+         <tr>
+        <td>@Html.Label("testNameLabel","Grid Wire Weight[g]:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.GridWireWeight.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+
+        <tr>
+        <td>@Html.Label("testNameLabel","Precure Bielectrode Weight[g]:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.PrecureBielectrodeWeight.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+     <tr>
+        <td>@Html.Label("testNameLabel","Operator(s):", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.Operators, new { @class="summaryValue"})</td>
+    </tr>  
+
+         <tr>
+        <td>@Html.Label("testNameLabel","Date/Time:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.weight.Timestamp.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+</table>
+}
+</div>
+
+
+
+<div>
+@if (Model.thickness != null) {
+<table>
+    <tr>
+        <td>@Html.Label("testNameLabel","Thickness 1:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_1.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+     <tr>
+        <td>@Html.Label("testNameLabel","Thickness 2:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_2.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+         <tr>
+        <td>@Html.Label("testNameLabel","Thickness 3:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_3.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+    <tr>
+        <td>@Html.Label("testNameLabel","Thickness 4:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_4.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+     <tr>
+        <td>@Html.Label("testNameLabel","Thickness 5:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_5.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+         <tr>
+        <td>@Html.Label("testNameLabel","Thickness 6:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_6.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+
+    <tr>
+        <td>@Html.Label("testNameLabel","Thickness 7:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_7.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+     <tr>
+        <td>@Html.Label("testNameLabel","Thickness 8:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_8.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+         <tr>
+        <td>@Html.Label("testNameLabel","Thickness 9:", new { @class="summaryLabel"})</td>
+        <td>@Html.Label("testNameValueLabel",Model.thickness.Thickness_9.ToString(), new { @class="summaryValue"})</td>
+    </tr>  
+
+</table>
+}
+</div>

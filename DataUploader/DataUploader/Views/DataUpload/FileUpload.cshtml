@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "New Data Upload";
+}
+
+<form method="post" enctype="multipart/form-data">
+
+         <div class="float-right">
+        <input type="submit"/>
+
+        </div>
+    <div style="clear:both;"></div>
+<div>
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<div>
+
+    <table>
+        <tr>
+            <th>
+            </th>
+        </tr>
+            <tr>
+                <td>@Html.Label("Cycler:")</td>
+                <td>@Html.DropDownList("cycler","Cycler")</td>
+            </tr>
+    </table>
+     
+    <table>
+            <tr>
+                <td><input name="files" id="uploadFile1" type="file" /></td>
+            </tr>
+            <tr>
+                <td><input name="files" id="uploadFile2" type="file" /></td>
+            </tr>
+            <tr>
+                <td><input name="files" id="uploadFile3" type="file" /></td>
+            </tr>
+    </table>
+    </form>
+</div>
+

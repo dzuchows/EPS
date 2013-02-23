@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DataUploadApi.ElectrodeGenealogySummary>
+@{
+    ViewBag.Title = "Genealogy";
+}
+
+<style>
+
+    .testNameHeader
+    {
+        width: 400px;
+        text-align: left;
+    }
+    .uploadTimestampHeader
+    {
+        width: 200px;
+        text-align: left;
+
+    }
+    .statusHeader
+    {
+        width: 200px;
+        text-align: left;
+
+    }
+    .summaryLink
+    {
+        width: 100px;
+        text-align: left;
+
+    }
+
+</style>
+
+<div>
+    <div class="float-left">
+        <h2>@ViewBag.Message</h2>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<div>
+    <table>
+        <tr>
+            <th class="uploadTimestampHeader">Bielectrode Number         
+            </th>
+            <th class="uploadTimestampHeader">Has Weight Data?
+               
+            </th>
+            <th class="uploadTimestampHeader">Has Thickness Data?
+              
+            </th>
+            <th class="uploadTimestampHeader">Genealogy Summary</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BielectrodeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasWeightData)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasThicknessData)
+                </td>
+                <td>  
+                      @Html.ActionLink("Summary", "Summary", "Genealogy", new { bielectrodeId = item.BielectrodeId }, null)   
+                    
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+
+

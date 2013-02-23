@@ -1,0 +1,44 @@
+﻿.uploadButton {
+	background-color:#77d42a;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	display:inline-block;
+	color:#306108;
+	font-family:arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:14px 24px;
+	text-decoration:none;
+}.uploadButton:hover {
+	background-color:#5cb811;
+}.uploadButton:active {
+	position:relative;
+	top:1px;
+}
+  .float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.summaryLabel
+{
+    background-color: #ccc;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 12pt;
+    border: solid;
+    border-width: 1px;
+}
+
+.summaryValue
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 12pt;
+    border: solid;
+    border-width: 1px;
+}

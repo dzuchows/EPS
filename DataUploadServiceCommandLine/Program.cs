@@ -201,7 +201,7 @@ namespace DataUploadService
                 Console.WriteLine("Processing Step 1a: " + e.FullPath + " " + e.ChangeType);
                 WaitReady(e.FullPath);
                 Console.WriteLine("Processing Step 1b: " + e.FullPath + " " + e.ChangeType);
-                ExcelDataSource dataSource = new ExcelDataSource(e.FullPath);
+                ArbinExcelDataSource dataSource = new ArbinExcelDataSource(e.FullPath);
                 Console.WriteLine("Processing Step 2: " + e.FullPath + " " + e.ChangeType);
 
                 ArbinTestDataRepository repository = new ArbinTestDataRepository();

@@ -170,7 +170,7 @@ namespace DataUploadService
             try
             {
                 WaitReady(e.FullPath);
-                ExcelDataSource dataSource = new ExcelDataSource(e.FullPath);
+                ArbinExcelDataSource dataSource = new ArbinExcelDataSource(e.FullPath);
 
                 ArbinTestDataRepository repository = new ArbinTestDataRepository();
 

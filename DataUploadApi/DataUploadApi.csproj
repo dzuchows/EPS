@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -31,7 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Excel">
-      <HintPath>..\DataUploadService\bin\Debug\Excel.dll</HintPath>
+      <HintPath>..\dependencies\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -57,6 +60,7 @@
     <Compile Include="repository\ElectrodeGenealogyExcelUtil.cs" />
     <Compile Include="repository\ElectrodeThicknessGenealogyExcelDataSource.cs" />
     <Compile Include="repository\ElectrodeWeightGenealogyExcelDataSource.cs" />
+    <Compile Include="repository\ArbinExcelDataSource.cs" />
     <Compile Include="repository\ExcelDataSource.cs" />
     <Compile Include="repository\UploadRepository.cs" />
   </ItemGroup>

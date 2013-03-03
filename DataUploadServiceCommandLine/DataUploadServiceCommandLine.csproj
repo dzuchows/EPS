@@ -61,10 +61,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Excel">
-      <HintPath>..\..\..\..\..\Downloads\ExcelDataReader_2.0.1.0\ExcelDataReader_2.0.1.0\Excel.dll</HintPath>
+      <HintPath>..\dependencies\Excel.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\..\..\Downloads\ExcelDataReader_2.0.1.0\ExcelDataReader_2.0.1.0\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

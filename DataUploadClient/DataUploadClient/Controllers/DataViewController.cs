@@ -63,7 +63,7 @@ namespace DataUploadClient.Controllers
         {
             SummaryModel summaryModel = new SummaryModel();
 
-            ExcelDataSource dataSource = new ExcelDataSource(Path.Combine(CompletedDirectory, fileName));
+            ArbinExcelDataSource dataSource = new ArbinExcelDataSource(Path.Combine(CompletedDirectory, fileName));
             ArbinTest test = dataSource.getTestResults();
 
             var Results = from t in test.TestResults

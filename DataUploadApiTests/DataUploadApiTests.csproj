@@ -43,7 +43,7 @@
       <HintPath>..\..\..\Program Files (x86)\NUnit 2.6.2\bin\framework\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
-      <HintPath>..\..\Components\RhinoMocks\Rhino.Mocks.dll</HintPath>
+      <HintPath>..\dependencies\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

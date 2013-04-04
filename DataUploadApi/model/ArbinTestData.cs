@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataUploadApi.model;
 
 namespace DataUploadApi
 {
-    public class ArbinTestData
+    public class ArbinTestData : ImpedanceTestData
     {
         private int id;
 
@@ -141,6 +142,23 @@ namespace DataUploadApi
             get { return acimpedance; }
             set { acimpedance = value; }
         }
+
+
+        public int StepIndex
+        {
+            get { return stepIndex; }
+            set { stepIndex = value; }
+        }
+
+        public int CycleIndex
+        {
+            get { return cycleIndex; }
+            set { cycleIndex = value; }
+        }
+
+        public float Current;
+
+        public float Voltage;
        
     }
 }

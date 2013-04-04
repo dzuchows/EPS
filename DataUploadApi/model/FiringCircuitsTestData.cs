@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataUploadApi.model;
 
 namespace DataUploadApi
 {
-    public class FiringCircuitsTestData
+    public class FiringCircuitsTestData : ImpedanceTestData
     {
         private DateTime? timeStamp;
 
@@ -140,6 +141,28 @@ namespace DataUploadApi
         {
             get { return whStep; }
             set { whStep = value; }
+        }
+
+        public int ImpedanceTestData.StepIndex
+        {
+            get { return Step; }
+            set { Step = value; }
+        }
+
+        public int ImpedanceTestData.CycleIndex {
+            get { return Cycle; }
+            set { Cycle = value; }
+        }
+
+        public float ImpedanceTestData.Current {
+            get { return currentA; }
+            set { currentA = value; }
+        }
+
+        public float ImpedanceTestData.Voltage
+        {
+            get { return voltage; }
+            set { voltage = value; }
         }
     }
 }

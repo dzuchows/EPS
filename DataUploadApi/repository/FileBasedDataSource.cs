@@ -9,6 +9,5 @@ namespace DataUploadApi
     interface FileBasedDataSource<T, R>
     {
         T getTestResults();
-
     }
 }

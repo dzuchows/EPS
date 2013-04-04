@@ -10,6 +10,12 @@ namespace DataUploadApi
     {
         private List<FiringCircuitsTestData> testResults;
 
+        public FiringCircuitsTest()
+        {
+            testResults = new List<FiringCircuitsTestData>();
+            TestMachineId = 2;
+        }
+
         public List<FiringCircuitsTestData> TestResults
         {
             get { return testResults; }

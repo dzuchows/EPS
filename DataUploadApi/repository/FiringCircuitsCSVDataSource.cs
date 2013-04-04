@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi
 {
-    public class FiringCircuitsCSVDataSource : FileBasedDataSource<FiringCircuitsTest, FiringCircuitsTestData>
+    public class FiringCircuitsCSVDataSource : AbstractFileBasedDataSource<FiringCircuitsTest, FiringCircuitsTestData>
     {
         private string fileName;
 
@@ -19,111 +19,94 @@ namespace DataUploadApi
         public FiringCircuitsTest getTestResults()
         {
             FiringCircuitsTest test = new FiringCircuitsTest();
-
+            FileStream stream = null;
+            StreamReader reader = null;
             try
             {
 
-                var stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                var reader = new StreamReader(stream);
+                stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+                reader = new StreamReader(stream);
 
+                extractTestHeader(reader, test);
 
+                String line = returnFirstNonEmptyLine(reader);
+                line = reader.ReadLine(); // header line
+                line = reader.ReadLine(); // header line
 
+                line = reader.ReadLine();
+                while (!String.IsNullOrEmpty(line))
+                {
+                    test.TestResults.Add(extractTestResult(line));
+                    line = reader.ReadLine();
+                }
+
+                return test;
             }
             catch (Exception ex)
             {
                 throw;
             }
+            finally
+            {
+                stream.Close();
+                reader.Close();
+            }
         }
 
         private void extractTestHeader(StreamReader reader, FiringCircuitsTest test)
         {
-            reader = returnFirstNonEmptyLine(reader);
+            String s = returnFirstNonEmptyLine(reader);
 
-            test.MeasurementId = extractIntValue(reader);
-            test.BatteryName = extractStringValue(reader);
-            test.BatteryName = extractStringValue(reader);
-            test.Circuit = extractStringValue(reader);
-            test.Program = extractStringValue(reader);
-            test.StartTime = extractDateTimeValue(reader);
-            test.EndTime = extractDateTimeValue(reader);
-            test.Comment = extractStringValue(reader);
-            test.OrderNo = extractStringValue(reader);
-            test.Producer = extractStringValue(reader);
-            test.Type = extractStringValue(reader);
-            test.NominalVoltage = extractFloatValue(reader);
-            test.NominalCurrent = extractFloatValue(reader);
-            test.NominalCapacity = extractFloatValue(reader);
-            test.Cells = extractFloatValue(reader);
-            test.MaximumVoltage = extractFloatValue(reader);
-            test.GassingVoltage = extractFloatValue(reader);
-            test.BreakVoltage = extractFloatValue(reader);
-            test.ChargeFactor = extractFloatValue(reader);
-            test.Impedance = extractFloatValue(reader);
-            test.ColdCrankingCurrent = extractFloatValue(reader);
-            test.EnergyDensity = extractFloatValue(reader);
-            test.Comment = extractStringValue(reader);
+            test.MeasurementId = extractIntValue(s);
+            test.BatteryName = extractStringValue(reader.ReadLine());
+            test.BatteryName = extractStringValue(reader.ReadLine());
+            test.Circuit = extractStringValue(reader.ReadLine());
+            test.Program = extractStringValue(reader.ReadLine());
+            test.StartTime = extractDateTimeValue(reader.ReadLine());
+            test.EndTime = extractDateTimeValue(reader.ReadLine());
+            test.TestSection = extractStringValue(reader.ReadLine());
+            test.Comment = extractStringValue(reader.ReadLine());
+            test.OrderNo = extractStringValue(reader.ReadLine());
+            test.Producer = extractStringValue(reader.ReadLine());
+            test.Type = extractStringValue(reader.ReadLine());
+            test.NominalVoltage = extractFloatValue(reader.ReadLine());
+            test.NominalCurrent = extractFloatValue(reader.ReadLine());
+            test.NominalCapacity = extractFloatValue(reader.ReadLine());
+            test.Cells = extractFloatValue(reader.ReadLine());
+            test.MaximumVoltage = extractFloatValue(reader.ReadLine());
+            test.GassingVoltage = extractFloatValue(reader.ReadLine());
+            test.BreakVoltage = extractFloatValue(reader.ReadLine());
+            test.ChargeFactor = extractFloatValue(reader.ReadLine());
+            test.Impedance = extractFloatValue(reader.ReadLine());
+            test.ColdCrankingCurrent = extractFloatValue(reader.ReadLine());
+            test.EnergyDensity = extractFloatValue(reader.ReadLine());
+            test.Comment = extractStringValue(reader.ReadLine());
+
+            test.TestName = test.BatteryName + " - " + test.MeasurementId;
         }
 
-        private FiringCircuitsTestData extractTestResult(StreamReader reader)
+        private FiringCircuitsTestData extractTestResult(String line)
         {
             var result = new FiringCircuitsTestData();
 
-            result.TimeStamp = extractDateTimeValue(reader);
-            result.Step = extractIntValue(reader);
-            result.Status = extractStringValue(reader);
-            result.ProgTime = extractStringValue(reader);
-            result.StepTime = extractStringValue(reader);
-            result.Cycle = extractIntValue(reader);
-            result.CycleLevel = extractIntValue(reader);
-            result.Procedure = extractStringValue(reader);
-            result.Voltage = extractFloatValue(reader);
-            result.CurrentA = extractFloatValue(reader);
-            result.AhAccu = extractFloatValue(reader);
+            String[] values = line.Split(',');
 
-
+            result.TimeStamp = getDateTimeValue(values[0]);
+            result.Step = getIntValue(values[1]);
+            result.Status = values[2];
+            result.ProgTime = values[3];
+            result.StepTime = values[4];
+            result.Cycle = getIntValue(values[5]);
+            result.CycleLevel = getIntValue(values[6]);
+            result.Procedure = values[7];
+            result.Voltage = getFloatValue(values[8]);
+            result.CurrentA = getFloatValue(values[9]);
+            result.AhAccu = getFloatValue(values[10]);
 
             return result;
         }
 
-
-
-        private StreamReader returnFirstNonEmptyLine(StreamReader reader)
-        {
-            string s;
-            while ((s = reader.ReadLine()).Length == 0) ;
-            return reader;
-        }
-
-        private int extractIntValue(StreamReader reader)
-        {
-            string[] s;
-            s = reader.ReadLine().Split(',');
-            if (!String.IsNullOrEmpty(s[1])) return Convert.ToInt32(s[1]);
-            return 0;
-        }
-
-        private string extractStringValue(StreamReader reader)
-        {
-            string[] s;
-            s = reader.ReadLine().Split(',');
-            return s[1];
-        }
-
-        private DateTime? extractDateTimeValue(StreamReader reader)
-        {
-            string[] s;
-            s = reader.ReadLine().Split(',');
-            if (!String.IsNullOrEmpty(s[1]))  return Convert.ToDateTime(s[1]);
-            return null; 
-        }
-
-        private float extractFloatValue(StreamReader reader)
-        {
-            string[] s;
-            s = reader.ReadLine().Split(',');
-            if (!String.IsNullOrEmpty(s[1])) return Convert.ToSingle(s[1]);
-            return 0.0F;
-        }
-
+        
+       
     }
 }

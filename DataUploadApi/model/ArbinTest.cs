@@ -19,7 +19,7 @@ namespace DataUploadApi
 
         public ArbinTest()
         {
-            this.TestMachineId = 1;
+            TestMachineId = 1;
             testResults = new List<ArbinTestData>();
         }
 

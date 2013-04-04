@@ -9,7 +9,7 @@ using Excel;
 
 namespace DataUploadApi
 {
-    public class ArbinExcelDataSource : AbstractExcelDataSource<ArbinTest, ArbinTestData>, FileBasedDataSource<ArbinTest, ArbinTestData>
+    public class ArbinExcelDataSource : AbstractExcelDataSource<ArbinTest, ArbinTestData>,FileBasedDataSource<ArbinTest, ArbinTestData>
     {
         private string fileName;
 

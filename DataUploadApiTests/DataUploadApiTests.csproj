@@ -55,7 +55,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="FiringCircuitsCSVDataSourceTest.cs" />
+    <Compile Include="PECCSVDataSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataUploadApi\DataUploadApi.csproj">
+      <Project>{b6c14d0d-a65d-4949-8b61-0c5bb3196ee0}</Project>
+      <Name>DataUploadApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi
 {
-    abstract class AbstractExcelDataSource<T, R>
+    public abstract class AbstractExcelDataSource<T, R>
     {
         protected string getCellValue(DataTable table, int row, int column)
         {

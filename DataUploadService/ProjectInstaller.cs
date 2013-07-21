@@ -24,14 +24,14 @@ namespace DataUploadService
             //or register event handlers
             serviceProcessInstaller.Account = ServiceAccount.LocalService;
 
-            serviceInstaller.ServiceName = "EPS Data Upload Service";
+            serviceInstaller.ServiceName = EPSDataUploadService.SERVICE_NAME;
             this.Installers.AddRange(new Installer[] {
                 serviceProcessInstaller, serviceInstaller });
 
             EventLogInstaller installer = FindInstaller(this.Installers);
             if (installer != null)
             {
-                installer.Log = "EPS Data Upload Service"; 
+                installer.Log = EPSDataUploadService.SERVICE_NAME;
             }
         }
 

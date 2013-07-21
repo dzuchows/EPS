@@ -12,14 +12,21 @@ namespace DataUploadApi
         private DateTime uploadTimeStamp;
         private string status;
         private string fileName;
+        private string cycler;
 
-
-        public UploadHistory(string testName, DateTime uploadTimeStamp, string status, string fileName)
+        public UploadHistory(string testName, DateTime uploadTimeStamp, string status, string fileName, string cycler)
         {
             this.testName = testName;
             this.uploadTimeStamp = uploadTimeStamp;
             this.status = status;
             this.fileName = fileName;
+            this.cycler = cycler;
+        }
+
+        public string Cycler
+        {
+            get { return cycler; }
+            set { cycler = value; }
         }
 
         public string FileName

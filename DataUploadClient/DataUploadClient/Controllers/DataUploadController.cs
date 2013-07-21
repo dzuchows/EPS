@@ -41,28 +41,6 @@ namespace DataUploadClient.Controllers
     public class DataUploadController : Controller
     {
 
-        private String DropDirectory {
-            get {
-                return System.Configuration.ConfigurationManager.AppSettings["DropDirectory"];
-            }
-        }
-
-        private String PendingDirectory
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["PendingDirectory"];
-            }
-        }
-
-        private String CompletedDirectory
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["CompletedDirectory"];
-            }
-        }
-
         //
         // GET: /DataUpload/
         private FileUploadModel fileUploadModel = new FileUploadModel();
@@ -112,8 +90,8 @@ namespace DataUploadClient.Controllers
                 if (file != null)
                 {
                     if (file.ContentLength > 0)
-                    {                        
-                        var path = Path.Combine(PendingDirectory, fileName);
+                    {
+                        var path = Path.Combine(getCyclerPendingDirectory(fileUploadModel.selectedCycler), fileName);
                         file.SaveAs(path);
                         index++;
                     }
@@ -135,136 +113,189 @@ namespace DataUploadClient.Controllers
         {
             SummaryModel summaryModel = new SummaryModel();
             summaryModel.cycler = cycler;
+            ImpedanceTest impedanceTest = null;
 
             if (cycler == "Arbin")
             {
-                ArbinExcelDataSource dataSource = new ArbinExcelDataSource(Path.Combine(PendingDirectory, fileName));
-                ArbinTest test = dataSource.getTestResults();
-
-                var Results = from t in test.TestResults
-                              where t.StepIndex == 15
-                              select t;
-
-                summaryModel.fileName = fileName;
-                summaryModel.test = test;
-                summaryModel.testType = testType != null ? testType : getTestType(fileName);
-
-                return View("Summary", summaryModel);                
+                ArbinExcelDataSource dataSource = new ArbinExcelDataSource(Path.Combine(getCyclerPendingDirectory(cycler), fileName));
+                ArbinTest arbinTest = dataSource.getTestResults();
+                summaryModel.test = arbinTest;
+                impedanceTest = arbinTest;
             }
 
             if (cycler == "PEC")
             {
-                PECCSVDataSource dataSource = new PECCSVDataSource(Path.Combine(PendingDirectory, fileName));
-                PECTest test = dataSource.getTestResults();
-                /*
-                var Results = from t in test.TestResults[]
-                              where t.Step == 15
-                              select t;
-                */
-                summaryModel.fileName = fileName;
-                summaryModel.test = test;
-                summaryModel.testType = testType != null ? testType : getTestType(fileName);
-
-                return View("Summary", summaryModel);
+                PECCSVDataSource dataSource = new PECCSVDataSource(Path.Combine(getCyclerPendingDirectory(cycler), fileName));
+                PECTest pecTest = dataSource.getTestResults();
+                summaryModel.test = pecTest;
+                impedanceTest = pecTest;
             }
-
 
             if (cycler == "Firing Circuits")
             {
-                FiringCircuitsCSVDataSource dataSource = new FiringCircuitsCSVDataSource(Path.Combine(PendingDirectory, fileName));
-                FiringCircuitsTest test = dataSource.getTestResults();
+                FiringCircuitsCSVDataSource dataSource = new FiringCircuitsCSVDataSource(Path.Combine(getCyclerPendingDirectory(cycler), fileName));
+                FiringCircuitsTest firingCircuitsTest = dataSource.getTestResults();
+                summaryModel.test = firingCircuitsTest;
 
-                var Results = from t in test.TestResults
-                              where t.Step == 15
-                              select t;
+                impedanceTest = firingCircuitsTest;
+            }
 
+            if (impedanceTest != null)
+            {
                 summaryModel.fileName = fileName;
-                summaryModel.test = test;
                 summaryModel.testType = testType != null ? testType : getTestType(fileName);
 
                 return View("Summary", summaryModel);
             }
-
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
 
-        public ActionResult CompletedSummary(string fileName, string testType)
+        public ActionResult CompletedSummary(string fileName, string testType, string cycler)
         {
             SummaryModel summaryModel = new SummaryModel();
 
-            ArbinExcelDataSource dataSource = new ArbinExcelDataSource(Path.Combine(CompletedDirectory, fileName));
-            ArbinTest test = dataSource.getTestResults();
+            if (cycler == "Arbin")
+            {
+                ArbinExcelDataSource dataSource = new ArbinExcelDataSource(Path.Combine(getCyclerCompletedDirectory(cycler), fileName));
+                summaryModel.test = dataSource.getTestResults();
+            }
+            else if (cycler == "Firing Circuits")
+            {
+                FiringCircuitsCSVDataSource dataSource = new FiringCircuitsCSVDataSource(Path.Combine(getCyclerCompletedDirectory(cycler), fileName));
+                summaryModel.test = dataSource.getTestResults();
+            }
+            else if (cycler == "PEC")
+            {
+                PECCSVDataSource dataSource = new PECCSVDataSource(Path.Combine(getCyclerCompletedDirectory(cycler), fileName));
+                summaryModel.test = dataSource.getTestResults();
+            }
+            else
+            {
+                throw new ArgumentException("Unknown test type");
+            }
 
-            var Results = from t in test.TestResults
-                          where t.StepIndex == 15
-                          select t;
-
+            summaryModel.cycler = cycler;
             summaryModel.fileName = fileName;
-            summaryModel.test = test;
             summaryModel.testType = testType != null ? testType : getTestType(fileName);
 
             return View("CompletedSummary", summaryModel);
         }
 
-
-        public ActionResult CompletedDownload(string fileName)
+        private static string getCyclerCompletedDirectory(string cycler)
         {
-            if (System.IO.File.Exists(Path.Combine(CompletedDirectory, fileName)))
-                return File(Path.Combine(CompletedDirectory, fileName), "application/octet-stream", fileName);
+            if (cycler.Equals(("Arbin")))
+            {
+                return Configuration.CompletedDirectory;
+            }
+            else if (cycler.Equals("Firing Circuits"))
+            {
+                return Configuration.FiringCircuitsCompletedDirectory;
+            }
+            else if (cycler.Equals(("PEC")))
+            {
+                return Configuration.PECCompletedDirectory;
+            }
+            else
+            {
+                throw new ArgumentException("Unnown test type");
+            }
+        }
+
+        private static string getCyclerPendingDirectory(string cycler)
+        {
+            if (cycler.Equals(("Arbin")))
+            {
+                return Configuration.PendingDirectory;
+            }
+            else if (cycler.Equals("Firing Circuits"))
+            {
+                return Configuration.FiringCircuitsPendingDirectory;
+            }
+            else if (cycler.Equals(("PEC")))
+            {
+                return Configuration.PECPendingDirectory;
+            }
+            else
+            {
+                throw new ArgumentException("Unnown test type");
+            }
+        }
+
+        
+        private static string getCyclerDropDirectory(string cycler)
+        {
+            if (cycler.Equals(("Arbin")))
+            {
+                return Configuration.DropDirectory;
+            }
+            else if (cycler.Equals("Firing Circuits"))
+            {
+                return Configuration.FiringCircuitsDropDirectory;
+            }
+            else if (cycler.Equals(("PEC")))
+            {
+                return Configuration.PECDropDirectory;
+            }
+            else
+            {
+                throw new ArgumentException("Unnown test type");
+            }
+        }
+
+        public ActionResult CompletedDownload(string fileName, string cycler)
+        {
+            if (System.IO.File.Exists(Path.Combine(getCyclerCompletedDirectory(cycler), fileName)))
+                return File(Path.Combine(getCyclerCompletedDirectory(cycler), fileName), "application/octet-stream", fileName);
             else
                 return RedirectToAction("Index");
         }
 
-        public ActionResult Download(string fileName)
+        public ActionResult Download(string fileName, string cycler)
         {
-            if (System.IO.File.Exists(Path.Combine(PendingDirectory, fileName)))
-                return File(Path.Combine(PendingDirectory, fileName), "application/octet-stream", fileName);
+            if (System.IO.File.Exists(Path.Combine(getCyclerPendingDirectory(cycler), fileName)))
+                return File(Path.Combine(getCyclerPendingDirectory(cycler), fileName), "application/octet-stream", fileName);
             else
                 return RedirectToAction("Index"); 
         }
 
-        public ActionResult ProcessUpload(string fileName)
+        public ActionResult ProcessUpload(string fileName, string cycler)
         {
-
-            System.IO.File.Copy(Path.Combine(PendingDirectory, fileName), Path.Combine(DropDirectory, fileName));
-            System.IO.File.Delete(Path.Combine(PendingDirectory, fileName));
+            if (System.IO.File.Exists(Path.Combine(getCyclerPendingDirectory(cycler), fileName)))
+            {
+                System.IO.File.Copy(Path.Combine(getCyclerPendingDirectory(cycler), fileName), Path.Combine(getCyclerDropDirectory(cycler), fileName), true);
+                System.IO.File.Delete(Path.Combine(getCyclerPendingDirectory(cycler), fileName));                
+            }
             return RedirectToAction("Index");
         }
 
-        public ActionResult CancelUpload(string fileName)
+        public ActionResult CancelUpload(string fileName, string cycler)
         {
-            System.IO.File.Delete(Path.Combine(PendingDirectory, fileName));
+            System.IO.File.Delete(Path.Combine(getCyclerPendingDirectory(cycler), fileName));
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult buildFiringCircuitsConditioningChargeChart(FiringCircuitsTest test)
+        {
+            return buildConditioningChargeChartInternal(test.TestResults);
         }
 
         public ActionResult buildConditioningChargeChart(ArbinTest test)
         {
-            // Build Chart
-            var chart = new Chart();
-
-            // Create chart here
-            chart.Width = 400;
-            chart.Height = 300;
-
-            Title title = new Title();
-            title.Text = "Charge & Discharge Capacity";
-            title.Font = new Font("Verdana,Arial,Helvetica,sans-serif", 10F, FontStyle.Bold);
-            chart.Titles.Add(title);
-
-
-            chart.ChartAreas.Add(CreateChartArea("Charge & Discharge Capacity"));
-            chart.Series.Add(ChargeCapacitySeries(test, "Charge & Discharge Capacity", "Charge"));
-            chart.Series.Add(DischargeCapacitySeries(test, "Charge & Discharge Capacity", "Discharge"));
-            chart.ChartAreas[0].AxisY.Title = "Ah";
-
-            StringBuilder result = new StringBuilder();
-            result.Append(getChartImage(chart));
-            result.Append(chart.GetHtmlImageMap("ImageMap"));
-            return Content(result.ToString());
+            return buildConditioningChargeChartInternal(test.TestResults);
         }
 
-        public ActionResult buildFiringCircuitsConditioningChargeChart(FiringCircuitsTest test)
+        public ActionResult buildPECConditioningChargeChart(PECTest test, string key)
+        {
+            return buildConditioningChargeChartInternal(test.TestResults[key]);
+        }
+
+
+        private ActionResult buildConditioningChargeChartInternal(IEnumerable<ImpedanceTestData> testData )
         {
             // Build Chart
             var chart = new Chart();
@@ -280,8 +311,8 @@ namespace DataUploadClient.Controllers
 
 
             chart.ChartAreas.Add(CreateChartArea("Charge & Discharge Capacity"));
-            chart.Series.Add(FiringCircuitsChargeCapacitySeries(test, "Charge & Discharge Capacity", "Charge"));
-            chart.Series.Add(FiringCircuitsDischargeCapacitySeries(test, "Charge & Discharge Capacity", "Discharge"));
+            chart.Series.Add(ChargeCapacitySeries(testData, "Charge & Discharge Capacity", "Charge"));
+            chart.Series.Add(DischargeCapacitySeries(testData, "Charge & Discharge Capacity", "Discharge"));
             chart.ChartAreas[0].AxisY.Title = "Ah";
 
             StringBuilder result = new StringBuilder();
@@ -289,8 +320,6 @@ namespace DataUploadClient.Controllers
             result.Append(chart.GetHtmlImageMap("ImageMap"));
             return Content(result.ToString());
         }
-
-
 
         public ActionResult buildFormationChargeChart(ArbinTest test)
         {
@@ -318,31 +347,20 @@ namespace DataUploadClient.Controllers
 
         public ActionResult buildConditioningImpedanceChart(ArbinTest test)
         {
-            // Build Chart
-            var chart = new Chart();
-
-            // Create chart here
-            chart.Width = 400;
-            chart.Height = 300;
-
-            Title title = new Title();
-            title.Text = "Impedance";
-            title.Font = new Font("Verdana,Arial,Helvetica,sans-serif", 10F, FontStyle.Bold);
-            chart.Titles.Add(title);
-
-
-            chart.ChartAreas.Add(CreateChartArea("Impedance"));
-            chart.Series.Add(ChannelingImpedanceChart(test, "Impedance", "Impedance"));
-
-            chart.ChartAreas[0].AxisY.Title = "R";
-
-            StringBuilder result = new StringBuilder();
-            result.Append(getChartImage(chart));
-            result.Append(chart.GetHtmlImageMap("ImageMap"));
-            return Content(result.ToString());
+            return buildConditioningImpedanceChartInternal(test.TestResults);
         }
 
         public ActionResult buildFiringCircuitsConditioningImpedanceChart(FiringCircuitsTest test)
+        {
+            return buildConditioningImpedanceChartInternal(test.TestResults);
+        }
+
+        public ActionResult buildPECConditioningImpedanceChart(PECTest test, string key)
+        {
+            return buildConditioningImpedanceChartInternal(test.TestResults[key]);
+        }
+
+        private ActionResult buildConditioningImpedanceChartInternal(IEnumerable<ImpedanceTestData> testData)
         {
             // Build Chart
             var chart = new Chart();
@@ -358,7 +376,7 @@ namespace DataUploadClient.Controllers
 
 
             chart.ChartAreas.Add(CreateChartArea("Impedance"));
-            chart.Series.Add(FiringCircuitsChannelingImpedanceChart(test, "Impedance", "Impedance"));
+            chart.Series.Add(ChannelingImpedanceChart(testData, "Impedance", "Impedance"));
 
             chart.ChartAreas[0].AxisY.Title = "R";
 
@@ -418,7 +436,7 @@ namespace DataUploadClient.Controllers
             return seriesDetail;
         }
 
-        public Series ChannelingImpedanceChart(ArbinTest test, string chartArea, string chartSeries)
+        public Series ChannelingImpedanceChart(IEnumerable<ImpedanceTestData> testData, string chartArea, string chartSeries)
         {
             Series seriesDetail = new Series();
             seriesDetail.Name = chartSeries;
@@ -427,34 +445,10 @@ namespace DataUploadClient.Controllers
             seriesDetail.ChartType = SeriesChartType.Line;
             seriesDetail.BorderWidth = 2;
 
-            var filteredResults = from t in test.TestResults
+            var filteredResults = from t in testData
                                   where t.StepIndex == 7
                                   group t by t.CycleIndex into r
                                   select new { R = Math.Abs(r.Average(c => c.Current)) / r.Average(c => c.Voltage) };
-
-            foreach (var r in filteredResults)
-            {
-                var p1 = seriesDetail.Points.Add(r.R);
-            }
-
-            seriesDetail.ChartArea = chartArea;
-            return seriesDetail;
-        }
-
-
-        public Series FiringCircuitsChannelingImpedanceChart(FiringCircuitsTest test, string chartArea, string chartSeries)
-        {
-            Series seriesDetail = new Series();
-            seriesDetail.Name = chartSeries;
-            seriesDetail.IsValueShownAsLabel = false;
-            seriesDetail.Color = Color.FromArgb(198, 99, 99);
-            seriesDetail.ChartType = SeriesChartType.Line;
-            seriesDetail.BorderWidth = 2;
-
-            var filteredResults = from t in test.TestResults
-                                  where t.Step == 7
-                                  group t by t.Cycle into r
-                                  select new { R = Math.Abs(r.Average(c => c.CurrentA)) / r.Average(c => c.Voltage) };
 
             foreach (var r in filteredResults)
             {
@@ -495,7 +489,7 @@ namespace DataUploadClient.Controllers
             return seriesDetail;
         }
 
-        public Series ChargeCapacitySeries(ArbinTest test, string chartArea, string chartSeries)
+        public Series ChargeCapacitySeries(IEnumerable<ImpedanceTestData> testData, string chartArea, string chartSeries)
         {
             Series seriesDetail = new Series();
             seriesDetail.Name = chartSeries;
@@ -504,7 +498,7 @@ namespace DataUploadClient.Controllers
             seriesDetail.ChartType = SeriesChartType.Line;
             seriesDetail.BorderWidth = 2;
 
-            var Results = from t in test.TestResults
+            var Results = from t in testData
                           where t.StepIndex == 15
                           select new { t.ChargeCapacity, t.DischargeCapacity };
 
@@ -517,7 +511,7 @@ namespace DataUploadClient.Controllers
             return seriesDetail;
         }
 
-        public Series DischargeCapacitySeries(ArbinTest test, string chartArea, string chartSeries)
+        public Series DischargeCapacitySeries(IEnumerable<ImpedanceTestData> testData, string chartArea, string chartSeries)
         {
             Series seriesDetail = new Series();
             seriesDetail.Name = chartSeries;
@@ -526,8 +520,7 @@ namespace DataUploadClient.Controllers
             seriesDetail.ChartType = SeriesChartType.Line;
             seriesDetail.BorderWidth = 2;
 
-
-            var Results = from t in test.TestResults
+            var Results = from t in testData
                           where t.StepIndex == 15
                           select new { t.ChargeCapacity, t.DischargeCapacity };
 
@@ -605,9 +598,19 @@ namespace DataUploadClient.Controllers
         {
             IEnumerable<UploadHistory> data = new List<UploadHistory>();
 
-            data = data.Concat<UploadHistory>(UploadRepository.getFiles("C:\\qa_data\\pending_approval\\", "PENDING APPROVAL"));
-            data = data.Concat<UploadHistory>(UploadRepository.getFiles("C:\\qa_data\\processing\\", "PROCESSING"));
-            data = data.Concat<UploadHistory>(UploadRepository.getFiles("C:\\qa_data\\completed\\", "COMPLETED"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.PendingDirectory, "PENDING APPROVAL", "Arbin"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.PECPendingDirectory, "PENDING APPROVAL", "PEC"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.FiringCircuitsPendingDirectory, "PENDING APPROVAL", "Firing Circuits"));
+
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.ProcessingDirectory, "PROCESSING", "Arbin"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.PECProcessingDirectory, "PROCESSING", "PEC"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.FiringCircuitsProcessingDirectory, "PROCESSING", "Firing Circuits"));
+
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.CompletedDirectory, "COMPLETED", "Arbin"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.PECCompletedDirectory, "COMPLETED", "PEC"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(Configuration.FiringCircuitsCompletedDirectory, "COMPLETED", "Firing Circuits"));
+
+            data = data.OrderByDescending(x => x.UploadTimeStamp).ToList(); 
 
             return data;
         }

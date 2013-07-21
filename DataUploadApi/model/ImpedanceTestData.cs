@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi.model
 {
-    interface ImpedanceTestData
+    public interface ImpedanceTestData
     {
-        public int StepIndex;
+        float StepIndex { get; }
 
-        public int CycleIndex;
-        
-        public float Current;
+        float CycleIndex { get; }
 
-        public float Voltage;
+        float Current { get; }
+
+        float Voltage { get; }
+
+        float ChargeCapacity { get; }
+
+        float DischargeCapacity { get; }
     }
 }

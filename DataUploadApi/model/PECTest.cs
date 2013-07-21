@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi.model
 {
-    public class PECTest : ModuleTest
+    public class PECTest : ModuleTest, ImpedanceTest
     {
 
         public PECTest(string testName)
@@ -14,6 +14,24 @@ namespace DataUploadApi.model
             this.TestName = testName;
             this.TestMachineId = 3;
             testResults = new Dictionary<string, List<PECTestData>>();
+        }
+
+        public Int16? NumberOfCells
+        {
+            get;
+            set;
+        }
+
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        public Int16? RequestYear
+        {
+            get;
+            set;
         }
 
         private string test;
@@ -27,7 +45,7 @@ namespace DataUploadApi.model
         private string testRegimeName;
         private string testRegimeSuffix;
         private string testRegimeCellSize;
-        private int testRegimeVersion;
+        private int? testRegimeVersion;
         private DateTime? startTime;
         private DateTime? endTime;
 
@@ -56,7 +74,7 @@ namespace DataUploadApi.model
             set { testRegimeCellSize = value; }
         }
 
-        public int TestRegimeVersion
+        public int? TestRegimeVersion
         {
             get { return testRegimeVersion; }
             set { testRegimeVersion = value; }
@@ -93,5 +111,14 @@ namespace DataUploadApi.model
             }
             set { endTime = value; }
         }
+
+        #region ImpedanceTest Members
+
+        IEnumerable<ImpedanceTestData> ImpedanceTest.getTestResults()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

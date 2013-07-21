@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataUploadApi.model;
 
 namespace DataUploadApi
 {
-    public class FiringCircuitsTest : ModuleTest
+    public class FiringCircuitsTest : ModuleTest, ImpedanceTest
     {
         private List<FiringCircuitsTestData> testResults;
-
+ 
         public FiringCircuitsTest()
         {
             testResults = new List<FiringCircuitsTestData>();
@@ -200,5 +201,9 @@ namespace DataUploadApi
             set { energyDensity = value; }
         }
 
+        IEnumerable<ImpedanceTestData> ImpedanceTest.getTestResults()
+        {
+            return testResults;
+        }
     }
 }

@@ -6,106 +6,126 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi.model
 {
-    public class PECTestData
+    public class PECTestData : ImpedanceTestData
     {
-        private string testNumber;
-        private int test;
-        private int step;
-        private int cycle;
-        private float totalTime;
-        private float stepTime;
-        private int cycleChannel;
-        private int cycleDischargeTime;
-        private float voltage;
-        private float current;
-        private float chargeCapacityAh;
-        private float dischargeCapacityAh;
-        private float chargeCapacityWh;
-        private float dischargeCapacityWh;
 
         public string TestNumber
         {
-            get { return testNumber; }
-            set { testNumber = value; }
+            get;
+            set;
         }
 
         public int Test
         {
-            get { return test; }
-            set { test = value; }
+            get;
+            set;
         }
 
         public int Step
         {
-            get { return step; }
-            set { step = value; }
+            get;
+            set;
         }
 
         public int Cycle
         {
-            get { return cycle; }
-            set { cycle = value; }
+            get;
+            set;
         }
 
         public float TotalTime
         {
-            get { return totalTime; }
-            set { totalTime = value; }
+            get;
+            set;
         }
 
         public float StepTime
         {
-            get { return stepTime; }
-            set { stepTime = value; }
+            get;
+            set;
         }
 
         public int CycleChannel
         {
-            get { return cycleChannel; }
-            set { cycleChannel = value; }
+            get;
+            set;
         }
 
         public int CycleDischargeTime
         {
-            get { return cycleDischargeTime; }
-            set { cycleDischargeTime = value; }
+            get;
+            set;
         }
 
         public float Voltage
         {
-            get { return voltage; }
-            set { voltage = value; }
+            get;
+            set;
         }
 
         public float Current
         {
-            get { return current; }
-            set { current = value; }
+            get;
+            set;
         }
 
         public float ChargeCapacityAh
         {
-            get { return chargeCapacityAh; }
-            set { chargeCapacityAh = value; }
+            get;
+            set;
         }
 
         public float DischargeCapacityAh
         {
-            get { return dischargeCapacityAh; }
-            set { dischargeCapacityAh = value; }
+            get;
+            set;
         }
 
         public float ChargeCapacityWh
         {
-            get { return chargeCapacityWh; }
-            set { chargeCapacityWh = value; }
+            get;
+            set;
         }
 
         public float DischargeCapacityWh
         {
-            get { return dischargeCapacityWh; }
-            set { dischargeCapacityWh = value; }
+            get;
+            set;
         }
 
+
+        #region ImpedanceTestData Members
+
+        float ImpedanceTestData.StepIndex
+        {
+            get { return Step; }
+        }
+
+        float ImpedanceTestData.CycleIndex
+        {
+            get { return Cycle; }
+        }
+
+        float ImpedanceTestData.Current
+        {
+            get { return Current; }
+        }
+
+        float ImpedanceTestData.Voltage
+        {
+            get { return Voltage; }
+        }
+
+        float ImpedanceTestData.ChargeCapacity
+        {
+            get { return ChargeCapacityAh; }
+        }
+
+        float ImpedanceTestData.DischargeCapacity
+        {
+            get { return DischargeCapacityAh;  }
+        }
+
+        #endregion
     }
 }

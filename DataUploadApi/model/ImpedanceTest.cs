@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataUploadApi.model
 {
-    interface ImpedanceTest
+    public interface ImpedanceTest
     {
-        List<ImpedanceTestData> getTestResults();
+        IEnumerable<ImpedanceTestData> getTestResults();
     }
 }

@@ -50,6 +50,71 @@ namespace DataUploadApi
         }
 
 
+        public static String FiringCircuitsDropDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["FiringCircuitsDropDirectory"];
+            }
+        }
+
+        public static String FiringCircuitsPendingDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["FiringCircuitsPendingDirectory"];
+            }
+        }
+
+        public static String FiringCircuitsCompletedDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["FiringCircuitsCompletedDirectory"];
+            }
+        }
+
+        public static String FiringCircuitsProcessingDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["FiringCircuitsProcessingDirectory"];
+            }
+        }
+
+
+        public static String PECDropDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["PECDropDirectory"];
+            }
+        }
+
+        public static String PECPendingDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["PECPendingDirectory"];
+            }
+        }
+
+        public static String PECCompletedDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["PECCompletedDirectory"];
+            }
+        }
+
+        public static String PECProcessingDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["PECProcessingDirectory"];
+            }
+        }
+
 
         public static String GenealogyThicknessDropDirectory
         {

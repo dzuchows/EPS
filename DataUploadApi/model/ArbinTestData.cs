@@ -144,21 +144,40 @@ namespace DataUploadApi
         }
 
 
-        public int StepIndex
+        float ImpedanceTestData.StepIndex
         {
             get { return stepIndex; }
-            set { stepIndex = value; }
         }
 
-        public int CycleIndex
+        float ImpedanceTestData.CycleIndex
         {
             get { return cycleIndex; }
-            set { cycleIndex = value; }
         }
 
-        public float Current;
+        float ImpedanceTestData.Current
+        {
+            get { return current; }
+        }
 
-        public float Voltage;
-       
+        float ImpedanceTestData.Voltage
+        {
+            get { return voltage; }
+        }
+
+
+        #region ImpedanceTestData Members
+
+
+        float ImpedanceTestData.ChargeCapacity
+        {
+            get { return chargeCapacity; }
+        }
+
+        float ImpedanceTestData.DischargeCapacity
+        {
+            get { return dischargeCapacity; }
+        }
+
+        #endregion
     }
 }

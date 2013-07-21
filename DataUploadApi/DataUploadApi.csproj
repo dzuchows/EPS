@@ -54,6 +54,8 @@
     <Compile Include="model\ElectrodeWeight.cs" />
     <Compile Include="model\FiringCircuitsTest.cs" />
     <Compile Include="model\FiringCircuitsTestData.cs" />
+    <Compile Include="model\ImpedanceTest.cs" />
+    <Compile Include="model\ImpedanceTestData.cs" />
     <Compile Include="model\ModuleTest.cs" />
     <Compile Include="model\PECTest.cs" />
     <Compile Include="model\PECTestData.cs" />
@@ -62,6 +64,8 @@
     <Compile Include="repository\AbstractExcelDataSource.cs" />
     <Compile Include="repository\ArbinTestDataRepository.cs" />
     <Compile Include="repository\BielectrodeGenealogyRepository.cs" />
+    <Compile Include="repository\PECBuilder.cs" />
+    <Compile Include="repository\PECExcelSpecification.cs" />
     <Compile Include="repository\ElectrodeGenealogyExcelUtil.cs" />
     <Compile Include="repository\ElectrodeThicknessGenealogyExcelDataSource.cs" />
     <Compile Include="repository\ElectrodeWeightGenealogyExcelDataSource.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="repository\FiringCircuitsCSVDataSource.cs" />
     <Compile Include="repository\FiringCircuitsTestDataRepository.cs" />
     <Compile Include="repository\PECCSVDataSource.cs" />
+    <Compile Include="repository\PECExcelSpecificationFactory.cs" />
     <Compile Include="repository\PECTestDataRepository.cs" />
     <Compile Include="repository\UploadRepository.cs" />
   </ItemGroup>

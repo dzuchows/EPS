@@ -331,8 +331,8 @@ namespace DataUploadClient.Controllers
         {
             IEnumerable<UploadHistory> data = new List<UploadHistory>();
 
-            data = data.Concat<UploadHistory>(UploadRepository.getFiles(ProcessingDirectory, "PROCESSING"));
-            data = data.Concat<UploadHistory>(UploadRepository.getFiles(CompletedDirectory, "COMPLETED"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(ProcessingDirectory, "PROCESSING", "Arbin"));
+            data = data.Concat<UploadHistory>(UploadRepository.getFiles(CompletedDirectory, "COMPLETED", "Arbin"));
 
             return data;
         }

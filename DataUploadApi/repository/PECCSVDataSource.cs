@@ -28,6 +28,7 @@ namespace DataUploadApi.repository
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
                 reader = new StreamReader(stream);
                 extractTestHeader(reader, test);
+                
                 List<String> testNumbers = extractTestNumbers(Path.GetFileName(fileName));
 
                 foreach (String s in testNumbers)
@@ -70,6 +71,8 @@ namespace DataUploadApi.repository
         {
             String s = returnFirstNonEmptyLine(reader);
 
+           
+
             test.Test = extractStringValue(s);
             test.TestRegimeName = extractStringValue(reader.ReadLine());
             test.TestRegimeSuffix = extractStringValue(reader.ReadLine());
@@ -79,6 +82,8 @@ namespace DataUploadApi.repository
             test.EndTime = extractDateTimeValue(reader.ReadLine());
             
         }
+
+
 
         private PECTestData extractTestResult(String line, String testNumber, int offset)
         {
@@ -105,7 +110,7 @@ namespace DataUploadApi.repository
 
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 
                 throw;
@@ -117,15 +122,13 @@ namespace DataUploadApi.repository
         {
             var testNumbers = new List<String>();
 
-            filename = filename.Replace("EPS Gen1 Module_", "");
+            filename = filename.Replace("EPS Gen1 Module_", "").Replace("_CONDITIONING", "").Replace(".csv", "");
 
             var tokens = filename.Split('_');
-            testNumbers.Add(tokens[0]);
-            testNumbers.Add(tokens[1]);
-            testNumbers.Add(tokens[2]);
-            testNumbers.Add(tokens[3]);
-            testNumbers.Add(tokens[4]);
-
+            foreach (string s in tokens)
+            {
+                testNumbers.Add(s);
+            }
             return testNumbers;
         }
 

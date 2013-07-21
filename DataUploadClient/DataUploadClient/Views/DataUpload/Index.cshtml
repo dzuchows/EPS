@@ -68,11 +68,11 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td> @if (item.Status == "PENDING APPROVAL") {
-                    @Html.ActionLink("Summary", "Summary", "DataUpload", new { fileName = item.FileName }, null)
+                    @Html.ActionLink("Summary", "Summary", "DataUpload", new { fileName = item.FileName, cycler = item.Cycler}, null)
                      }
                      else if (item.Status == "COMPLETED")
                      {
-                      @Html.ActionLink("Summary", "CompletedSummary", "DataUpload", new { fileName = item.FileName }, null)   
+                      @Html.ActionLink("Summary", "CompletedSummary", "DataUpload", new { fileName = item.FileName, cycler = item.Cycler }, null)   
                      }
                 </td>
             </tr>

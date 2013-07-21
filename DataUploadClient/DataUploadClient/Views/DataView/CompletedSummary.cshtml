@@ -33,20 +33,54 @@
 
 </div>
 
-<div  class="float-left">
-    @if (Model.testType == "CONDITIONING") {
-        Html.RenderAction("buildConditioningChargeChart", Model.test); 
-    } else {
-        Html.RenderAction("buildFormationChargeChart", Model.test);         
-    }
-</div>
-
-<div class="float-right">
-@if (Model.testType == "CONDITIONING")
+@if (Model.cycler == "Arbin" || Model.cycler == "Firing Circuits")
 {
-    Html.RenderAction("buildConditioningImpedanceChart", Model.test);     
+    <div  class="float-left">
+        @if (Model.cycler == "Arbin")
+        {
+            if (Model.testType == "CONDITIONING")
+            {
+                Html.RenderAction("buildConditioningChargeChart", Model.test);
+            }
+            else
+            {
+                Html.RenderAction("buildFormationChargeChart", Model.test);
+            }
+        }
+        else if (Model.cycler == "Firing Circuits")
+        {
+            Html.RenderAction("buildFiringCircuitsConditioningChargeChart", Model.test);
+        }
+    </div>
+
+    <div class="float-right">
+        @if (Model.cycler == "Arbin")
+        {
+            if (Model.testType == "CONDITIONING")
+            {
+                Html.RenderAction("buildConditioningImpedanceChart", Model.test);
+            }
+        }
+        else if (Model.cycler == "Firing Circuits")
+        {
+            Html.RenderAction("buildFiringCircuitsConditioningImpedanceChart", Model.test);
+        }
+    </div>
 }
-</div>
+else if (Model.cycler == "PEC")
+{
+    foreach (string key in ((DataUploadApi.model.PECTest) Model.test).TestResults.Keys)
+    {
+         <div  class="float-left">
+                @{ Html.RenderAction("buildPECConditioningChargeChart", "DataUpload", new { test = Model.test, key = key }); }
+        </div>
+        <div class="float-right">
+            @{ Html.RenderAction("buildPECConditioningImpedanceChart", "DataUpload", new { test = Model.test, key = key }); }          
+        </div>
+    <br />
+    }
+}
+
 
 <div style="clear:both;"></div>
 

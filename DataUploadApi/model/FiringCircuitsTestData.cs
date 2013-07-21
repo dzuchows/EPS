@@ -143,26 +143,37 @@ namespace DataUploadApi
             set { whStep = value; }
         }
 
-        public int ImpedanceTestData.StepIndex
+        float ImpedanceTestData.StepIndex
         {
             get { return Step; }
-            set { Step = value; }
         }
 
-        public int ImpedanceTestData.CycleIndex {
+        float ImpedanceTestData.CycleIndex {
             get { return Cycle; }
-            set { Cycle = value; }
         }
 
-        public float ImpedanceTestData.Current {
+        float ImpedanceTestData.Current {
             get { return currentA; }
-            set { currentA = value; }
         }
 
-        public float ImpedanceTestData.Voltage
+        float ImpedanceTestData.Voltage
         {
             get { return voltage; }
-            set { voltage = value; }
         }
+
+        #region ImpedanceTestData Members
+
+
+        float ImpedanceTestData.ChargeCapacity
+        {
+            get { return ahCha; }
+        }
+
+        float ImpedanceTestData.DischargeCapacity
+        {
+            get { return ahDch; }
+        }
+
+        #endregion
     }
 }

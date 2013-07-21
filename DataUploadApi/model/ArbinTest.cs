@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataUploadApi.model;
 
 namespace DataUploadApi
 {
-    public class ArbinTest : ModuleTest
+    public class ArbinTest : ModuleTest, ImpedanceTest
     {
 
         private IList<ArbinTestData> testResults;
@@ -21,6 +22,11 @@ namespace DataUploadApi
         {
             TestMachineId = 1;
             testResults = new List<ArbinTestData>();
+        }
+
+        IEnumerable<ImpedanceTestData> ImpedanceTest.getTestResults()
+        {
+            return testResults;
         }
 
     }
